@@ -1,0 +1,15 @@
+{
+  "name": "video_streaming",
+  "version": "1.0.0",
+  "description": "video streaming server",
+  "main": "index.js",
+  "scripts": {
+    "test": "console.log(\"TestCommand\")"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
+  }
+}

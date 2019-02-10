@@ -1,0 +1,33 @@
+vlc -I dummy -v --noaudio --ttl 12 v4l:/dev/video0:size=320x240  --sout '#std{access=mmsh,dst=:8080}' -V X11 
+ffmpeg -f video4linux2 -s 640x480 -r 30 -i /dev/video0 -thread_queue_size 512 -ac 1 -f alsa -i pulse -f webm -listen 1 -seekable 0 -multiple_requests 1 http://localhost:8090
+
+sudo chmod 777 /dev/video0 //Get access permission
+
+cvlc -vvv v4l2:///dev/video0 --sout '#standard{access=http,mux=ogg,dst=192.168.0.3:8001}' //By using this command i can download ogg file from server via http
+cvlc -vvv v4l2:///dev/video0 --sout '#transcode{vcodec=mp4v,vb=800,ab=128}:standard{access=http,mux=ogg,dst=192.168.0.3:8001}' //Doesn't work
+
+cvlc -vvv v4l2:///dev/video0 --sout '#standard{access=http,mux=mp4,dst=192.168.0.3:8001}' //Test code - doesn't work
+
+vlc -vvv v4l2:///dev/video0 :sout=#transcode{vcodec=mp4v,acodec=mp4a,ab=128,channels=2,samplerate=44100}:file{dst=output.mp4}
+
+cvlc -vvv v4l2:///dev/video0 --sout '#transcode{vcodec=mp4v}:file{dst=output.mp4}'
+
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -c:v libvpx -crf 10 -b:v 1M -c:a libvorbis output-file.webm
+
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts - | ffmpeg -f mpegts -i pipe: -f mp4 output.mp4
+
+==================
+
+For html MediaSource,
+ffmpeg encode
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -c:v libvpx -crf 10 -b:v 1M -c:a libvorbis output-file.webm
+and MediaSource codec 'video/webm; codecs="vp8"' works for me.
+
+Final result.
+
+Capture the webcam with mpegts format and split it into small pieces.
+Convert format of each piece to webm
+Concat video with MediaSource.
+
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts - | ffmpeg -f mpegts -i -c:v libvpx -crf 10 -b:v 1M -c:a libvorbis output-file.webm
+when convert file, mpegts doesnt works. instead, mjpeg format works.
