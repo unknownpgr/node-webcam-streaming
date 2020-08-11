@@ -1,3 +1,6 @@
+Just ignore this file. It is memo for develop.
+
+
 vlc -I dummy -v --noaudio --ttl 12 v4l:/dev/video0:size=320x240  --sout '#std{access=mmsh,dst=:8080}' -V X11 
 ffmpeg -f video4linux2 -s 640x480 -r 30 -i /dev/video0 -thread_queue_size 512 -ac 1 -f alsa -i pulse -f webm -listen 1 -seekable 0 -multiple_requests 1 http://localhost:8090
 

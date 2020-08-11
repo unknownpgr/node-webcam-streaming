@@ -1,1 +1,3 @@
 node_modules
+public/*.m3u8
+public/*.ts
