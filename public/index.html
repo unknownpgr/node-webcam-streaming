@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Video live streaming</title>
+    <style>
+      #videoFrame {
+        text-align: center;
+      }
+
+      #buttonFrame {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-left: 30%;
+        margin-right: 30%;
+      }
+
+      #logDiv {
+        text-align: center;
+        margin: 16px;
+      }
+
+      button {
+        width: 64px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="videoFrame">
+      <video width="640" height="480" id="vidTag" controls>
+        <source src="video.m3u8" type="application/x-mpegURL" />
+      </video>
+    </div>
+    <div id="logDiv">Log</div>
+    <div></div>
+  </body>
+</html>
